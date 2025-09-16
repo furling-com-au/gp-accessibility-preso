@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hidden GP Deserts? Appointment-Based Spatial Accessibility in South Australia</title>
+
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/white.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- MathJax Configuration -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            startup: {
+                ready: () => {
+                    MathJax.startup.defaultReady();
+                    MathJax.startup.promise.then(() => {
+                        console.log('MathJax loaded and ready');
+                    });
+                }
+            }
+        };
+    </script>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section class="center">
+                <div class="title-slide fade-in">
+                    <h1>Hidden GP Deserts?</h1>
+                    <div class="subtitle slide-up" style="animation-delay: 0.5s;">
+                        Revealing Accessibility Gaps Using E2SFCA Methodology<br>
+                        <small>An E2SFCA Proof-of-Concept for Three South Australian Regions</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 2: Why Can't We Find These Problems? -->
+            <section>
+                <h2>Why Can't We Find These GP Deserts?</h2>
+
+                <!-- Visual Representation of DPA Problem -->
+                <div style="background: white; padding: 0.8rem; border-radius: 8px; margin-bottom: 0.8rem;">
+                    <h4 style="color: #0066CC; margin-bottom: 0.5rem; text-align: center;">Two Critical DPA Classification Problems</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <!-- Problem 1: Hidden Deserts -->
+                        <div>
+                            <h5 style="color: #EF4444; margin-bottom: 0.3rem; font-size: 0.9em;">Problem 1: Hidden Deserts in "Adequate" Areas</h5>
+                            <svg width="240" height="140" viewBox="0 0 240 140">
+                                <!-- Non-DPA region -->
+                                <rect x="10" y="10" width="220" height="120" fill="#DCFCE7" stroke="#10B981" stroke-width="2" rx="5"/>
+                                <text x="120" y="25" text-anchor="middle" font-size="11" font-weight="bold">NOT DPA (No Support)</text>
+
+                                <!-- Show hidden variation -->
+                                <circle cx="40" cy="50" r="7" fill="#10B981"/>
+                                <text x="40" y="65" font-size="8" text-anchor="middle">1.5</text>
+
+                                <circle cx="80" cy="60" r="7" fill="#10B981"/>
+                                <text x="80" y="75" font-size="8" text-anchor="middle">1.2</text>
+
+                                <!-- Hidden desert pocket -->
+                                <rect x="150" y="70" width="70" height="50" fill="#FEE2E2" stroke="#EF4444" stroke-width="1" stroke-dasharray="2,2" rx="3"/>
+                                <text x="185" y="85" text-anchor="middle" font-size="9" fill="#DC2626">Hidden</text>
+                                <text x="185" y="95" text-anchor="middle" font-size="9" fill="#DC2626">Desert</text>
+                                <circle cx="170" cy="95" r="5" fill="#EF4444"/>
+                                <circle cx="200" cy="95" r="5" fill="#EF4444"/>
+                                <text x="185" y="110" font-size="8" text-anchor="middle" fill="#DC2626">0.3</text>
+                            </svg>
+                        </div>
+
+                        <!-- Problem 2: Good Access in DPA -->
+                        <div>
+                            <h5 style="color: #F59E0B; margin-bottom: 0.3rem; font-size: 0.9em;">Problem 2: Good Access in DPA Areas</h5>
+                            <svg width="240" height="140" viewBox="0 0 240 140">
+                                <!-- DPA region -->
+                                <rect x="10" y="10" width="110" height="120" fill="#FEE2E2" stroke="#EF4444" stroke-width="2" rx="5"/>
+                                <text x="65" y="25" text-anchor="middle" font-size="11" font-weight="bold">DPA</text>
+
+                                <!-- Non-DPA adjacent region -->
+                                <rect x="120" y="10" width="110" height="120" fill="#DCFCE7" stroke="#10B981" stroke-width="2" rx="5"/>
+                                <text x="175" y="25" text-anchor="middle" font-size="11" font-weight="bold">NOT DPA</text>
+
+                                <!-- Clinic just across boundary -->
+                                <rect x="130" y="60" width="15" height="15" fill="#0066CC" rx="2"/>
+                                <text x="137" y="69" text-anchor="middle" font-size="8" fill="white">GP</text>
+
+                                <!-- Person in DPA with good access -->
+                                <circle cx="95" cy="67" r="6" fill="#10B981"/>
+                                <text x="95" y="85" font-size="8" text-anchor="middle" fill="#059669">1.3</text>
+
+                                <!-- Arrow showing access -->
+                                <path d="M 101 67 L 125 67" stroke="#10B981" stroke-width="1.5" stroke-dasharray="2,1" marker-end="url(#arrowgreen)"/>
+                                <text x="110" y="100" font-size="8" text-anchor="middle" fill="#666">10min</text>
+
+                                <defs>
+                                    <marker id="arrowgreen" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+                                        <polygon points="0 0, 6 2, 0 4" fill="#10B981"/>
+                                    </marker>
+                                </defs>
+
+                                <text x="65" y="115" text-anchor="middle" font-size="8" fill="#F59E0B">Gets funding</text>
+                                <text x="65" y="125" text-anchor="middle" font-size="8" fill="#F59E0B">but has access!</text>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Statistics -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">85%</div>
+                        <div class="stat-label">Of GP catchments classified as DPA</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">40-50%</div>
+                        <div class="stat-label">Review's recommended DPA coverage</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">SA3</div>
+                        <div class="stat-label">Large areas hide local variation</div>
+                    </div>
+                </div>
+
+                <div style="background: #FEF3C7; padding: 0.5rem; border-radius: 6px; margin-top: 0.5rem;">
+                    <strong>The Problem:</strong> DPA uses large area averages (SA3: 30,000-130,000 people) that hide local GP deserts within "adequate" regions
+                </div>
+
+                <div class="references" style="font-size: 0.7em;">
+                    Sources: Working Better for Medicare Review (2024); AIHW (2024); Department of Health DPA Review (2022)
+                </div>
+            </section>
+
+            <!-- Slide 3: Literature Gap -->
+            <section>
+                <h2>Evidence Gap in Australian GP Accessibility</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div>
+                        <h4 style="color: #0066CC;">International Context</h4>
+                        <ul style="font-size: 0.9em;">
+                            <li><strong>Established methods:</strong> E2SFCA widely used globally for healthcare accessibility</li>
+                            <li><strong>Appointment metrics:</strong> Wait time standards established in US, UK, Canada</li>
+                            <li><strong>Primary care impact:</strong> Strong evidence linking GP access to population health outcomes</li>
+                        </ul>
+
+                        <h4 style="color: #0066CC; margin-top: 1rem;">Methodological Evolution</h4>
+                        <ul style="font-size: 0.9em;">
+                            <li>Provider ratios → 2SFCA → E2SFCA</li>
+                            <li>Distance decay and population competition</li>
+                            <li>Capacity weighting: headcount → FTE → appointments</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h4 style="color: #EF4444;">Australian Gap</h4>
+                        <ul style="font-size: 0.9em;">
+                            <li><strong>No appointment-weighted E2SFCA</strong> for Australian GP accessibility</li>
+                            <li>Current DPA: Binary classification at SA3 level</li>
+                            <li>Existing studies use headcount or FTE, not actual appointment availability</li>
+                        </ul>
+
+                        <h4 style="color: #EF4444; margin-top: 1rem;">Why This Matters</h4>
+                        <ul style="font-size: 0.9em;">
+                            <li>Working Better for Medicare Review calls for gradient approach</li>
+                            <li>Patient experience = appointment availability, not just GP presence</li>
+                            <li>Within-area heterogeneity invisible to current metrics</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="background: #F3F4F6; padding: 1rem; border-radius: 8px; margin-top: 1rem; text-align: center;">
+                    <strong>Research Opportunity:</strong> First appointment-weighted E2SFCA application for Australian GP access
+                </div>
+            </section>
+
+            <!-- Slide 4: Policy Alignment -->
+            <section>
+                <h2>Alignment with Policy Direction</h2>
+                <div style="text-align: center; background: var(--light-gray); padding: 2rem; border-radius: 8px; margin: 1rem 0;">
+                    <h3>"Current distribution mechanisms are not sufficient to the task"</h3>
+                    <p><em>- Working Better for Medicare Review (2024)</em></p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label"><strong>"Reduce DPA to 40-50%"</strong><br>
+                        → E2SFCA enables targeted identification</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label"><strong>"More granular assessment"</strong><br>
+                        → SA1 level analysis within SA3s</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label"><strong>"Evidence-based approach"</strong><br>
+                        → Continuous scores vs binary classification</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label"><strong>"Regular reassessment"</strong><br>
+                        → Methodology supports periodic updates</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: Research Questions & Hypotheses -->
+            <section>
+                <h2>Research Questions & Hypotheses</h2>
+
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3 style="color: white; margin: 0; text-align: center; font-size: 1.1em;">Primary Research Question</h3>
+                    <p style="color: white; text-align: center; margin: 0.5rem 0;">
+                        To what extent does appointment-weighted E2SFCA reveal intra-area heterogeneity<br>in GP accessibility within DPA-designated regions?
+                    </p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 0.8rem;">
+                    <div style="background: white; padding: 0.8rem; border-radius: 8px; border-left: 4px solid #0066CC;">
+                        <h4 style="color: #0066CC; margin-top: 0; font-size: 0.95em;">Q1: Hidden variation?</h4>
+                        <p style="font-size: 0.85em; margin: 0.3rem 0;"><strong>H1:</strong> ≥30% of SA1s in DPA areas have adequate access despite blanket shortage designation</p>
+                    </div>
+
+                    <div style="background: white; padding: 0.8rem; border-radius: 8px; border-left: 4px solid #10B981;">
+                        <h4 style="color: #10B981; margin-top: 0; font-size: 0.95em;">Q2: Urban complexity impact?</h4>
+                        <p style="font-size: 0.85em; margin: 0.3rem 0;"><strong>H2:</strong> Intersection density explains 20-30% of accessibility variation in urban areas</p>
+                    </div>
+
+                    <div style="background: white; padding: 0.8rem; border-radius: 8px; border-left: 4px solid #F59E0B;">
+                        <h4 style="color: #F59E0B; margin-top: 0; font-size: 0.95em;">Q3: Binary vs gradient?</h4>
+                        <p style="font-size: 0.85em; margin: 0.3rem 0;"><strong>H3:</strong> Continuous accessibility scores better capture actual access patterns than binary DPA status</p>
+                    </div>
+
+                    <div style="background: white; padding: 0.8rem; border-radius: 8px; border-left: 4px solid #EF4444;">
+                        <h4 style="color: #EF4444; margin-top: 0; font-size: 0.95em;">Q4: Geographic patterns?</h4>
+                        <p style="font-size: 0.85em; margin: 0.3rem 0;"><strong>H4:</strong> Access drivers differ: urban (competition), regional (distance), remote (absolute scarcity)</p>
+                    </div>
+                </div>
+
+                <div style="background: #F3F4F6; padding: 0.8rem; border-radius: 8px;">
+                    <h4 style="color: #0066CC; margin: 0; font-size: 0.95em;">Study Objectives:</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem;">
+                        <div style="font-size: 0.85em;">
+                            <strong>1.</strong> Map SA1-level accessibility in 3 SA3s<br>
+                            <strong>2.</strong> Quantify hidden heterogeneity within DPAs
+                        </div>
+                        <div style="font-size: 0.85em;">
+                            <strong>3.</strong> Test sensitivity to parameters & data<br>
+                            <strong>4.</strong> Develop open-source pipeline
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 6: Study Implementation -->
+            <section>
+                <h2>Study Implementation</h2>
+
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <h3 style="color: white; margin: 0; text-align: center; font-size: 1.1em;">Three Study Sites - All Currently DPA</h3>
+                    <p style="color: white; text-align: center; margin: 0.3rem 0; font-size: 0.9em;">
+                        Playford-Elizabeth (MM1) • Mount Gambier (MM4) • Ceduna (MM6)
+                    </p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8rem;">
+                    <div style="background: white; padding: 0.8rem; border-radius: 8px; text-align: center;">
+                        <h4 style="color: #0066CC; margin-top: 0; font-size: 0.9em;">Data Collection</h4>
+                        <div style="font-size: 0.8em; text-align: left;">
+                            • GP clinic locations<br>
+                            • Appointment availability<br>
+                            • SA1 populations<br>
+                            • Road networks
+                        </div>
+                    </div>
+
+                    <div style="background: white; padding: 0.8rem; border-radius: 8px; text-align: center;">
+                        <h4 style="color: #10B981; margin-top: 0; font-size: 0.9em;">E2SFCA Analysis</h4>
+                        <div style="font-size: 0.8em; text-align: left;">
+                            • Distance decay (σ=10-30km)<br>
+                            • Urban complexity adjust<br>
+                            • Edge effect buffers<br>
+                            • Natural breaks tiers
+                        </div>
+                    </div>
+
+                    <div style="background: white; padding: 0.8rem; border-radius: 8px; text-align: center;">
+                        <h4 style="color: #F59E0B; margin-top: 0; font-size: 0.9em;">Validation</h4>
+                        <div style="font-size: 0.8em; text-align: left;">
+                            • Actual vs predicted access<br>
+                            • Sensitivity analysis<br>
+                            • Geographic patterns<br>
+                            • Policy implications
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #F3F4F6; padding: 0.8rem; border-radius: 8px; margin-top: 0.8rem;">
+                    <h4 style="color: #0066CC; margin: 0; font-size: 0.9em;">Expected Outcomes:</h4>
+                    <p style="font-size: 0.85em; margin: 0.3rem 0;">
+                        • Tiered accessibility gradient replacing binary DPA flag<br>
+                        • Identification of hidden GP deserts and over-served pockets<br>
+                        • Open-source analytical pipeline for national scale-up
+                    </p>
+                </div>
+            </section>
+
+            <!-- Slide 7: E2SFCA Mathematical Foundation -->
+            <section>
+                <h2>The E2SFCA Method - Complete Process</h2>
+
+                <!-- Three Step Process Flow -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.3rem; margin-bottom: 0.5rem;">
+                    <!-- Step 1 -->
+                    <div style="background: #F3F4F6; padding: 0.4rem; border-radius: 6px;">
+                        <h4 style="color: #0066CC; margin: 0; font-size: 0.8em;">Step 1: Supply Ratios</h4>
+                        <div style="margin: 0.3rem 0; text-align: center;">
+                            <svg width="100" height="60" viewBox="0 0 100 60">
+                                <circle cx="50" cy="30" r="10" fill="#0066CC"/>
+                                <text x="50" y="34" text-anchor="middle" fill="white" font-size="8">GP</text>
+                                <circle cx="20" cy="20" r="5" fill="#F59E0B"/>
+                                <circle cx="20" cy="40" r="5" fill="#F59E0B"/>
+                                <circle cx="80" cy="30" r="5" fill="#F59E0B"/>
+                                <path d="M 25 22 L 40 28" stroke="#F59E0B" stroke-width="1" marker-end="url(#arrow1)"/>
+                                <path d="M 25 38 L 40 32" stroke="#F59E0B" stroke-width="1" marker-end="url(#arrow1)"/>
+                                <path d="M 75 30 L 60 30" stroke="#F59E0B" stroke-width="1" marker-end="url(#arrow1)"/>
+                                <defs>
+                                    <marker id="arrow1" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+                                        <polygon points="0 0, 6 2, 0 4" fill="#F59E0B"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div style="font-size: 0.65em; text-align: center;">
+                            R<sub>j</sub> = Appts ÷ Weighted Pop
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div style="background: #F3F4F6; padding: 0.4rem; border-radius: 6px;">
+                        <h4 style="color: #0066CC; margin: 0; font-size: 0.8em;">Step 2: Sum Access</h4>
+                        <div style="margin: 0.3rem 0; text-align: center;">
+                            <svg width="100" height="60" viewBox="0 0 100 60">
+                                <circle cx="50" cy="30" r="8" fill="#10B981"/>
+                                <text x="50" y="33" text-anchor="middle" fill="white" font-size="7">Pop</text>
+                                <rect x="15" y="15" width="12" height="12" fill="#0066CC" rx="1"/>
+                                <rect x="73" y="20" width="12" height="12" fill="#0066CC" rx="1"/>
+                                <rect x="65" y="38" width="12" height="12" fill="#0066CC" rx="1"/>
+                                <path d="M 27 21 L 42 28" stroke="#0066CC" stroke-width="1" marker-end="url(#arrow2)"/>
+                                <path d="M 73 26 L 58 29" stroke="#0066CC" stroke-width="1" marker-end="url(#arrow2)"/>
+                                <path d="M 65 42 L 56 34" stroke="#0066CC" stroke-width="1" marker-end="url(#arrow2)"/>
+                                <defs>
+                                    <marker id="arrow2" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+                                        <polygon points="0 0, 6 2, 0 4" fill="#0066CC"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                        <div style="font-size: 0.65em; text-align: center;">
+                            A<sub>i</sub> = Σ(R<sub>j</sub> × weight)
+                        </div>
+                    </div>
+
+                    <!-- Step 3 - NEW -->
+                    <div style="background: #FEF3C7; padding: 0.4rem; border-radius: 6px; border: 1px solid #F59E0B;">
+                        <h4 style="color: #92400E; margin: 0; font-size: 0.8em;">Step 3: Classify</h4>
+                        <div style="margin: 0.3rem 0; font-size: 0.65em;">
+                            <div style="color: #10B981;">Higher scores = Better access</div>
+                            <div style="color: #F59E0B;">Medium scores = Limited access</div>
+                            <div style="color: #EF4444;">Low scores = GP desert</div>
+                        </div>
+                        <div style="font-size: 0.6em; margin-top: 0.3rem;">
+                            (Thresholds to be validated)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Calculation Example -->
+                <div style="background: white; padding: 0.5rem; border-radius: 8px; margin-bottom: 0.5rem;">
+                    <h4 style="color: #0066CC; margin-bottom: 0.3rem; font-size: 0.85em;">Live Calculation</h4>
+
+                    <!-- Input Data -->
+                    <div style="display: grid; grid-template-columns: 1.5fr 1fr 1.5fr; gap: 0.5rem; font-size: 0.75em; margin-bottom: 0.5rem;">
+                        <div style="background: #F3F4F6; padding: 0.3rem; border-radius: 4px;">
+                            <strong>Clinic A</strong>
+                            <div>40 appts/wk @ 15min</div>
+                            <div>Weight: <span id="clinic-a-weight">0.94</span></div>
+                            <div>R<sub>A</sub> = <span id="clinic-a-ratio">0.0134</span></div>
+                        </div>
+
+                        <div style="text-align: center; padding: 0.3rem;">
+                            <strong>Your Location</strong>
+                            <div>Pop: 2,988</div>
+                            <div style="font-size: 0.9em; margin-top: 0.2rem;">σ = <span id="sigma-value">60</span></div>
+                        </div>
+
+                        <div style="background: #F3F4F6; padding: 0.3rem; border-radius: 4px; text-align: right;">
+                            <strong>Clinic B</strong>
+                            <div>25 appts/wk @ 45min</div>
+                            <div>Weight: <span id="clinic-b-weight">0.49</span></div>
+                            <div>R<sub>B</sub> = <span id="clinic-b-ratio">0.0084</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Calculation Flow -->
+                    <div style="background: #EFF6FF; padding: 0.4rem; border-radius: 4px; font-size: 0.7em; text-align: center;">
+                        <div>A = (0.0134 × 0.94) + (0.0084 × 0.49) = <strong id="access-score-weekly">0.0167</strong> appts/person/week</div>
+                        <div style="margin-top: 0.2rem;">× 52 weeks = <strong id="access-score-yearly" style="font-size: 1.2em;">0.87</strong> appts/person/year</div>
+                        <div style="margin-top: 0.3rem; padding: 0.3rem; border-radius: 4px;" id="classification-result">
+                            <strong style="color: #F59E0B;">Classification: POOR ACCESS</strong>
+                            <div style="font-size: 0.9em;">Below adequate threshold of 1.0</div>
+                        </div>
+                    </div>
+
+                    <!-- Slider -->
+                    <div style="margin-top: 0.5rem;">
+                        <label style="font-size: 0.75em;">Adjust decay parameter (σ): </label>
+                        <input type="range" id="sigma-slider" min="30" max="90" value="60" style="width: 100%;">
+                    </div>
+                </div>
+
+                <!-- Comparison -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+                    <div>
+                        <h4 style="font-size: 0.8em; margin-bottom: 0.3rem;">DPA vs E2SFCA Method</h4>
+                        <div style="font-size: 0.65em;">
+                            <div style="margin: 0.2rem 0; padding: 0.3rem; background: #FEE2E2; border-radius: 3px;">
+                                <strong>DPA (Current):</strong>
+                                <div style="font-size: 0.9em; margin-top: 0.1rem;">
+                                    • SA3 region average: OK<br>
+                                    • GP/population ratio: 0.8<br>
+                                    • Result: <strong>NOT a DPA</strong><br>
+                                    <span style="color: #666;">→ No funding support</span>
+                                </div>
+                            </div>
+                            <div style="margin: 0.2rem 0; padding: 0.3rem; background: #FEF3C7; border-radius: 3px;">
+                                <strong>E2SFCA (Proposed):</strong>
+                                <div style="font-size: 0.9em; margin-top: 0.1rem;">
+                                    • This location: 0.87/year<br>
+                                    • Distance-weighted<br>
+                                    • Result: <strong>POOR ACCESS</strong><br>
+                                    <span style="color: #92400E;">→ Hidden pocket found</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chart-container" style="min-height: 200px; height: 200px; position: relative;">
+                        <canvas id="decay-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="references" style="font-size: 0.6em; margin-top: 0.3rem;">
+                    McGrail & Humphreys (2009); Stacherl & Sauzet (2023) systematic review
+                </div>
+            </section>
+
+            <!-- Slide 8: Australian Distance Realities -->
+            <section>
+                <h2>Australian Travel Distance Realities</h2>
+
+                <!-- Conceptual distance comparison -->
+                <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <h4 style="color: #0066CC; margin-bottom: 0.8rem;">Relative Travel Burden by Region Type</h4>
+
+                    <!-- Visual representation without specific numbers -->
+                    <div style="margin: 1rem 0;">
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center;">
+                                <strong style="width: 150px; font-size: 0.9em;">Major Cities (MM1)</strong>
+                                <div style="flex: 1; margin: 0 1rem;">
+                                    <div style="background: #E5E7EB; height: 30px; border-radius: 4px; position: relative;">
+                                        <div style="background: #10B981; height: 100%; width: 15%; border-radius: 4px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center;">
+                                <strong style="width: 150px; font-size: 0.9em;">Regional (MM2-3)</strong>
+                                <div style="flex: 1; margin: 0 1rem;">
+                                    <div style="background: #E5E7EB; height: 30px; border-radius: 4px; position: relative;">
+                                        <div style="background: #F59E0B; height: 100%; width: 45%; border-radius: 4px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <div style="display: flex; align-items: center;">
+                                <strong style="width: 150px; font-size: 0.9em;">Rural (MM4-5)</strong>
+                                <div style="flex: 1; margin: 0 1rem;">
+                                    <div style="background: #E5E7EB; height: 30px; border-radius: 4px; position: relative;">
+                                        <div style="background: #EF4444; height: 100%; width: 75%; border-radius: 4px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 0.5rem;">
+                            <div style="display: flex; align-items: center;">
+                                <strong style="width: 150px; font-size: 0.9em;">Remote (MM6-7)</strong>
+                                <div style="flex: 1; margin: 0 1rem;">
+                                    <div style="background: #E5E7EB; height: 30px; border-radius: 4px; position: relative;">
+                                        <div style="background: #991B1B; height: 100%; width: 100%; border-radius: 4px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.75em; color: #666; margin-top: 0.5rem; text-align: center;">
+                        Bar length represents relative travel burden (not to scale)
+                    </p>
+                </div>
+
+                <!-- Key challenges -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div style="background: #FEE2E2; padding: 1rem; border-radius: 6px;">
+                        <h5 style="color: #DC2626; margin: 0 0 0.5rem 0;">The Urban Paradox</h5>
+                        <p style="font-size: 0.8em; margin: 0;">
+                            Short physical distances in cities can mean long travel times due to traffic and public transport gaps
+                        </p>
+                    </div>
+                    <div style="background: #FEF3C7; padding: 1rem; border-radius: 6px;">
+                        <h5 style="color: #92400E; margin: 0 0 0.5rem 0;">The Rural Reality</h5>
+                        <p style="font-size: 0.8em; margin: 0;">
+                            Vast distances with limited alternative options - the "next closest" GP may be hours away
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background: #EFF6FF; padding: 1rem; border-radius: 6px; margin-top: 1rem;">
+                    <h5 style="color: #1E40AF; margin: 0 0 0.5rem 0;">Why One Size Doesn't Fit All</h5>
+                    <p style="font-size: 0.85em; margin: 0;">
+                        Travel tolerance varies dramatically: What's acceptable in remote areas would be considered inaccessible in cities.
+                        This is why E2SFCA needs different decay parameters (σ) for different contexts - but determining these values
+                        requires validation against actual utilization patterns.
+                    </p>
+                </div>
+
+                <div class="references" style="font-size: 0.65em;">
+                    Modified Monash Model (MM) Classification System - Department of Health
+                </div>
+            </section>
+
+            <!-- Slide 9: Urban Complexity Adjustment -->
+            <section>
+                <h2>Our Innovation - Australian Urban Complexity</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div>
+                        <h4>Urban Complexity Adjustment</h4>
+                        <div class="equation-container">
+                            <p>t<sub>ij</sub><sup>adjusted</sup> = t<sub>ij</sub><sup>base</sup> × (1 + α · D<sub>ij</sub>)</p>
+                            <p>Where: D<sub>ij</sub> = intersections per minute</p>
+                            <p>α = adjustment factor (to be calibrated)</p>
+                        </div>
+                        <div class="parameter-slider">
+                            <label>Test adjustment factor α: <span id="alpha-value">0.15</span></label>
+                            <input type="range" id="alpha-slider" min="0" max="0.3" step="0.01" value="0.15">
+                            <p style="font-size: 0.75em; color: #666; margin-top: 0.3rem;">
+                                Interactive demonstration - actual values to be empirically determined
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="chart-container">
+                            <canvas id="complexity-chart"></canvas>
+                        </div>
+                        <ul>
+                            <li>Urban congestion increases travel time unpredictably</li>
+                            <li>Most Australians rely on cars for healthcare access</li>
+                            <li>20-minute urban ≠ 20-minute rural cognitive burden</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="references">
+                    Sources: BITRE Traffic Growth in Australian Cities; Infrastructure Australia Urban Congestion Maps (2024)
+                </div>
+            </section>
+
+            <!-- Slide 10: Study Sites -->
+            <section>
+                <h2>Study Sites and Feasibility</h2>
+                <!-- Visual representation of study sites -->
+                <div style="background: white; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center;">
+                        <!-- Playford-Elizabeth -->
+                        <div style="background: #F3F4F6; padding: 1rem; border-radius: 8px; border: 2px solid #0066CC;">
+                            <h4 style="color: #0066CC; margin: 0 0 0.5rem 0;">Urban</h4>
+                            <div style="position: relative; height: 120px; display: flex; align-items: center; justify-content: center;">
+                                <svg width="100" height="100" viewBox="0 0 100 100">
+                                    <!-- Dense clinic distribution -->
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#E5E7EB" stroke-width="2" stroke-dasharray="3,3"/>
+                                    <circle cx="50" cy="50" r="25" fill="none" stroke="#0066CC" stroke-width="2"/>
+                                    <!-- Many clinic dots -->
+                                    <circle cx="50" cy="50" r="3" fill="#0066CC"/>
+                                    <circle cx="35" cy="40" r="2" fill="#0066CC"/>
+                                    <circle cx="65" cy="45" r="2" fill="#0066CC"/>
+                                    <circle cx="40" cy="60" r="2" fill="#0066CC"/>
+                                    <circle cx="60" cy="55" r="2" fill="#0066CC"/>
+                                    <circle cx="45" cy="35" r="2" fill="#0066CC"/>
+                                    <circle cx="55" cy="65" r="2" fill="#0066CC"/>
+                                    <circle cx="30" cy="50" r="2" fill="#0066CC"/>
+                                    <circle cx="70" cy="50" r="2" fill="#0066CC"/>
+                                </svg>
+                            </div>
+                            <div style="font-size: 0.8em; color: #666;">High density</div>
+                            <div style="font-size: 0.7em; color: #666;">Metropolitan area</div>
+                        </div>
+
+                        <!-- Mount Gambier -->
+                        <div style="background: #F3F4F6; padding: 1rem; border-radius: 8px; border: 2px solid #F59E0B;">
+                            <h4 style="color: #F59E0B; margin: 0 0 0.5rem 0;">Regional</h4>
+                            <div style="position: relative; height: 120px; display: flex; align-items: center; justify-content: center;">
+                                <svg width="100" height="100" viewBox="0 0 100 100">
+                                    <!-- Medium clinic distribution -->
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#E5E7EB" stroke-width="2" stroke-dasharray="3,3"/>
+                                    <circle cx="50" cy="50" r="25" fill="none" stroke="#F59E0B" stroke-width="2"/>
+                                    <!-- Fewer clinic dots -->
+                                    <circle cx="50" cy="50" r="3" fill="#F59E0B"/>
+                                    <circle cx="35" cy="45" r="2" fill="#F59E0B"/>
+                                    <circle cx="65" cy="55" r="2" fill="#F59E0B"/>
+                                    <circle cx="45" cy="65" r="2" fill="#F59E0B"/>
+                                    <circle cx="55" cy="35" r="2" fill="#F59E0B"/>
+                                </svg>
+                            </div>
+                            <div style="font-size: 0.8em; color: #666;">Medium density</div>
+                            <div style="font-size: 0.7em; color: #666;">Regional center</div>
+                        </div>
+
+                        <!-- Ceduna -->
+                        <div style="background: #F3F4F6; padding: 1rem; border-radius: 8px; border: 2px solid #EF4444;">
+                            <h4 style="color: #EF4444; margin: 0 0 0.5rem 0;">Remote</h4>
+                            <div style="position: relative; height: 120px; display: flex; align-items: center; justify-content: center;">
+                                <svg width="100" height="100" viewBox="0 0 100 100">
+                                    <!-- Sparse clinic distribution -->
+                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#E5E7EB" stroke-width="2" stroke-dasharray="3,3"/>
+                                    <circle cx="50" cy="50" r="25" fill="none" stroke="#EF4444" stroke-width="2"/>
+                                    <!-- Very few clinic dots -->
+                                    <circle cx="50" cy="50" r="3" fill="#EF4444"/>
+                                    <circle cx="30" cy="40" r="2" fill="#EF4444"/>
+                                    <circle cx="70" cy="60" r="2" fill="#EF4444"/>
+                                </svg>
+                            </div>
+                            <div style="font-size: 0.8em; color: #666;">Low density</div>
+                            <div style="font-size: 0.7em; color: #666;">Remote town</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem; text-align: center; font-size: 0.75em; color: #666;">
+                        <span style="margin: 0 1rem;">● Core study area</span>
+                        <span style="margin: 0 1rem;">--- Buffer zone (edge effects)</span>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">Playford-Elizabeth</div>
+                        <div class="stat-label">Adelaide metropolitan area<br>
+                        Higher clinic density, urban complexity</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">Mount Gambier</div>
+                        <div class="stat-label">Regional SA (Limestone Coast)<br>
+                        Medium clinic density, cross-border effects</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">Ceduna</div>
+                        <div class="stat-label">Remote SA (Eyre Peninsula)<br>
+                        Low clinic density, vast catchments</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 11: Edge Effects and Study Design -->
+            <section>
+                <h2>Edge Effects and Study Design</h2>
+                <div class="chart-container">
+                    <canvas id="edge-effects-chart" width="600" height="400"></canvas>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">SA3 Study Areas (~280 SA1s)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">90</div>
+                        <div class="stat-label">Minutes buffer zone radius</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">~400</div>
+                        <div class="stat-label">Total clinics in computational area</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 12: Data Collection Pipeline -->
+            <section>
+                <h2>Data Collection Pipeline</h2>
+                <div class="chart-container">
+                    <svg id="pipeline-chart" width="100%" height="400"></svg>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                    <div>
+                        <h4>Tiered Approach:</h4>
+                        <ol>
+                            <li> HealthEngine, HotDoc</li>
+                            <li> Health Direct API </li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4>Quality Assurance:</h4>
+                        <ul>
+                            <li>Expanded collection period</li>
+                            <li>Temporal stability testing</li>
+                            <li>Cross-validation where possible</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 13: Sensitivity Analysis -->
+            <section>
+                <h2>Sensitivity Analysis Framework</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div>
+                        <h4>Parameters to Test:</h4>
+                        <ul>
+                            <li><strong>Urban complexity factor</strong><br>
+                                <span style="font-size: 0.9em; color: #666;">Impact of intersection density on travel time</span></li>
+                            <li><strong>Catchment thresholds</strong><br>
+                                <span style="font-size: 0.9em; color: #666;">Maximum travel time boundaries</span></li>
+                            <li><strong>Decay parameters</strong><br>
+                                <span style="font-size: 0.9em; color: #666;">How quickly accessibility decreases with distance</span></li>
+                            <li><strong>Buffer zone assumptions</strong><br>
+                                <span style="font-size: 0.9em; color: #666;">Impact of edge effect handling</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Analysis Objectives:</h4>
+                        <ul>
+                            <li><strong>Assess model stability</strong><br>
+                                <span style="font-size: 0.9em; color: #666;">How much do results change with different parameters?</span></li>
+                            <li><strong>Identify critical parameters</strong><br>
+                                <span style="font-size: 0.9em; color: #666;">Which inputs have the greatest impact?</span></li>
+                            <li><strong>Test geographic consistency</strong><br>
+                                <span style="font-size: 0.9em; color: #666;">Do patterns hold across urban/regional/remote?</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="background: #F3F4F6; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                    <p style="text-align: center; margin: 0; color: #666;">
+                        <strong>Purpose:</strong> Ensure findings aren't artifacts of specific parameter choices
+                    </p>
+                </div>
+            </section>
+
+            <!-- Slide 14: Limitations -->
+            <section>
+                <h2>Limitations and Transparency</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div>
+                        <h4>Acknowledged Limitations:</h4>
+                        <div class="stat-card" style="border-left-color: var(--danger-red);">
+                            <div class="stat-label"><strong>Three SA3s limit generalizability</strong><br>
+                            → Position as proof-of-concept</div>
+                        </div>
+                        <div class="stat-card" style="border-left-color: var(--warning-yellow);">
+                            <div class="stat-label"><strong>Data collection period constraints</strong><br>
+                            → Cannot capture temporal variations</div>
+                        </div>
+                        <div class="stat-card" style="border-left-color: var(--warning-yellow);">
+                            <div class="stat-label"><strong>Measures structural access only</strong><br>
+                            → No affordability (bulk-billing) or demographic needs weighting</div>
+                        </div>
+                        <div class="stat-card" style="border-left-color: var(--warning-yellow);">
+                            <div class="stat-label"><strong>Appointment data completeness</strong><br>
+                            → Platform variability; simulation tool for missing data</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4>Strengths Despite Limitations:</h4>
+                        <div class="stat-card" style="border-left-color: var(--medical-green);">
+                            <div class="stat-label">Appointment-weighted E2SFCA for Australian GP access</div>
+                        </div>
+                        <div class="stat-card" style="border-left-color: var(--medical-green);">
+                            <div class="stat-label">Established methodology used worldwide</div>
+                        </div>
+                        <div class="stat-card" style="border-left-color: var(--medical-green);">
+                            <div class="stat-label">Provides baseline accessibility measure</div>
+                        </div>
+                        <div class="stat-card" style="border-left-color: var(--medical-green);">
+                            <div class="stat-label">Transparent, reproducible approach</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 15: Questions -->
+            <section class="center">
+                <h1>Questions?</h1>
+            </section>
+        </div>
+    </div>
+
+    <div class="progress-indicator">
+        <span id="slide-counter">1 / 15</span>
+    </div>
+
+    <!-- External Scripts - with specific versions -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Custom Scripts -->
+    <script src="charts.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

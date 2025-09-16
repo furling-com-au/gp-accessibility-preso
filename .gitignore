@@ -1,0 +1,42 @@
+# Backup files
+*.backup
+*_backup.*
+index_complete_backup_reorder.html
+index_complete.html
+index_backup.html
+index.html.bak
+presentation_script.md
+
+# Original files (if keeping reordered as main)
+index_original.html
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.Python
+
+# Node (if you add any JS build tools later)
+node_modules/
+npm-debug.log
+
+# Research data (if sensitive)
+data/
+*.csv
+*.xlsx
+
+# Personal notes
+notes.txt
+todo.txt
+deploy_github_pages.md
+presentation.md

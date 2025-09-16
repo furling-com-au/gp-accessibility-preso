@@ -1,0 +1,490 @@
+/* Main Presentation Styles */
+
+:root {
+    --primary-blue: #0066CC;
+    --medical-green: #10B981;
+    --warning-yellow: #F59E0B;
+    --danger-red: #EF4444;
+    --text-gray: #374151;
+    --light-gray: #F3F4F6;
+    --border-gray: #E5E7EB;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.reveal {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--text-gray);
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--primary-blue);
+    text-transform: none;
+    line-height: 1.2;
+}
+
+.reveal .slides section {
+    text-align: left;
+    padding: 20px;
+    box-sizing: border-box;
+    height: 700px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.reveal .slides section.center {
+    text-align: center;
+}
+
+.reveal .slides section .title-slide {
+    text-align: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin: 2rem 0;
+}
+
+.reveal .slides section .title-slide h1 {
+    color: white;
+    font-size: 2.5em;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.reveal .slides section .title-slide .subtitle {
+    font-size: 1.2em;
+    opacity: 0.9;
+    font-weight: 300;
+}
+
+.chart-container {
+    width: 100%;
+    height: 300px;
+    min-height: 150px;
+    max-height: 350px;
+    margin: 0.5rem 0;
+    background: var(--light-gray);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.chart-container canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.interactive-element {
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.interactive-element:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.stat-card {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-blue);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+}
+
+.stat-number {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 0.3rem;
+}
+
+.stat-label {
+    font-size: 0.9em;
+    color: var(--text-gray);
+}
+
+.equation-container {
+    background: var(--light-gray);
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    font-family: 'Courier New', monospace;
+}
+
+.parameter-slider {
+    margin: 1rem 0;
+}
+
+.parameter-slider input {
+    width: 100%;
+    margin: 0.5rem 0;
+}
+
+.timeline {
+    position: relative;
+    max-width: 100%;
+    margin: 0.5rem 0;
+    padding: 10px 0;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    background-color: var(--primary-blue);
+    top: 10px;
+    bottom: 10px;
+    left: 50%;
+    margin-left: -1.5px;
+}
+
+.timeline-item {
+    padding: 1px 15px;
+    position: relative;
+    background-color: inherit;
+    width: 47%;
+    margin: 1px 0;
+}
+
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border: 3px solid var(--primary-blue);
+    top: 10px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-item.left {
+    left: 0;
+}
+
+.timeline-item.left::after {
+    right: -8px;  /* Half dot width to center on edge */
+}
+
+.timeline-item.right {
+    left: 50%;  /* Align right items perfectly with center line */
+}
+
+.timeline-item.right::after {
+    left: -8px;  /* Half dot width to center on edge */
+}
+
+.timeline-content {
+    padding: 4px 8px;
+    background-color: white;
+    position: relative;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+.timeline-item.left .timeline-content {
+    text-align: right;
+}
+
+.map-container {
+    width: 100%;
+    height: 350px;
+    max-height: 400px;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.calculator-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 1rem 0;
+}
+
+.input-group {
+    margin: 1rem 0;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-gray);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.result-display {
+    background: var(--light-gray);
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+    font-weight: 500;
+}
+
+.references {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-gray);
+}
+
+.legend {
+    background: white;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 1rem 0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    margin-right: 0.5rem;
+}
+
+.progress-indicator {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-blue);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9em;
+    z-index: 1000;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .reveal {
+        font-size: 24px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .timeline::after {
+        left: 31px;
+    }
+
+    .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+
+    .timeline-item::before {
+        left: 60px;
+        border: medium solid white;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent white transparent transparent;
+    }
+
+    .timeline-item.left::after,
+    .timeline-item.right::after {
+        left: 19px;
+    }
+
+    .timeline-item.right {
+        left: 0%;
+    }
+}
+
+/* Custom Scrollbar for slides */
+.reveal .slides section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.reveal .slides section::-webkit-scrollbar-track {
+    background: var(--light-gray);
+    border-radius: 4px;
+}
+
+.reveal .slides section::-webkit-scrollbar-thumb {
+    background: var(--primary-blue);
+    border-radius: 4px;
+}
+
+.reveal .slides section::-webkit-scrollbar-thumb:hover {
+    background: #004499;
+}
+
+/* Animations */
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+.slide-up {
+    transform: translateY(30px);
+    opacity: 0;
+    animation: slideUp 0.6s ease-out forwards;
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.morphing-chart {
+    transition: all 1s ease-in-out;
+}
+
+.highlight {
+    background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+/* Reveal.js specific sizing fixes */
+.reveal .slides {
+    width: 960px !important;
+    height: 700px !important;
+}
+
+.reveal .slides > section {
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+}
+
+.reveal h2 {
+    font-size: 1.6em;
+    margin-bottom: 0.5rem;
+}
+
+.reveal h3 {
+    font-size: 1.3em;
+    margin-bottom: 0.5rem;
+}
+
+.reveal h4 {
+    font-size: 1.1em;
+    margin-bottom: 0.3rem;
+}
+
+.reveal ul, .reveal ol {
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+/* Fix grid layouts on slides */
+.reveal .slides section > div[style*="grid"] {
+    max-height: calc(100% - 100px);
+    overflow-y: auto;
+}
+
+/* Constrain equation containers */
+.equation-container {
+    max-width: 100%;
+    font-size: 0.9em;
+    padding: 1rem;
+}
+
+/* Fix timeline on slides */
+.timeline {
+    max-height: none;
+    overflow-y: visible;
+    margin: 0.5rem 0;
+    padding: 0 10px;
+    font-size: 0.85em;
+}
+
+.timeline-content {
+    padding: 3px 6px;
+    font-size: 0.55em;
+    line-height: 1.1;
+}
+
+.timeline-content h4 {
+    font-size: 0.8em;
+    margin-bottom: 0.1rem;
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+.timeline-content p {
+    margin: 0.1rem 0;
+    font-size: 0.85em;
+}
+
+.timeline-content small {
+    font-size: 0.75em;
+    color: #666;
+    display: block;
+    margin-top: 0.1rem;
+    font-style: italic;
+}
+
+/* Ensure calculator doesn't overflow */
+.calculator-container {
+    padding: 1rem;
+    font-size: 0.9em;
+}
+
+/* Print Styles */
+@media print {
+    .print-mode .reveal .slides section {
+        page-break-after: always;
+        transform: none !important;
+        opacity: 1 !important;
+    }
+
+    .print-mode .progress-indicator {
+        display: none;
+    }
+
+    .print-mode .chart-container canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
