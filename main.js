@@ -406,7 +406,7 @@ function updateInteractiveExample() {
     if (accessScoreYearly >= 1.0) {
         classification = "ADEQUATE ACCESS";
         color = "#10B981";
-        message = "Meets WHO minimum standard";
+        message = "";
     } else if (accessScoreYearly >= 0.5) {
         classification = "POOR ACCESS";
         color = "#F59E0B";
